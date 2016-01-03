@@ -2,7 +2,7 @@
 var url = require("url");
 
 
-function start(route) {
+function start(route,handler) {
     function onRequest(request, response) {
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.write("Hello World");
@@ -14,9 +14,10 @@ function start(route) {
         response.write("\n\r");
         response.write("route config:");
         var pathName = url.parse(request.url).pathname;
-        
-        route(pathName);
-
+        response.write("\n\r");
+        var content = route(handler, pathName);
+        response.write(content);
+        response.write("\n\r");
         response.write("request path:"+pathName);
         response.end();
     }
@@ -28,11 +29,11 @@ function start(route) {
 //    console.log("Request handler 'start' was called.");
 //}
 
-function upload(){
-    console.log("Request handler 'upload' was called.");
-}
+//function upload(){
+//    console.log("Request handler 'upload' was called.");
+//}
 
 exports.start = start;
-exports.upload = upload;
+//exports.upload = upload;
 
 console.log("nodejs server has start!!");
